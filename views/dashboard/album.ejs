@@ -45,8 +45,7 @@
                         <% album.forEach(listaAlbum => { %>
                         <% var filtro = usuario.fauna.includes(listaAlbum.id_album); %>
                         <div class="text-center p-3">
-                            //<img src="/assetsDashboard/images/stickers/<%- filtro === true ? listaAlbum.animal_color : listaAlbum.animal_bn %>" alt="image" style="width: 70% !important;">
-                             <img src="/assetsDashboard/images/stickers/<%- filtro === true ? listaAlbum.render %>" alt="image" style="width: 70% !important;">
+                            <img src="/assetsDashboard/images/stickers/<%- filtro === true ? listaAlbum.animal_color : listaAlbum.animal_bn %>" alt="image" style="width: 70% !important;">
                             <h5 class="text-center mt-2"><%= listaAlbum.nombre %></h5>
                             <button class="btn btn-block btn-main-primary" onclick="info(event, '<%= listaAlbum.nombre %>', '<%= listaAlbum.descripcion %>', '<%= listaAlbum.animal_color %>')">Saber más...</button>
                         </div>
