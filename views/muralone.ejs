@@ -1,0 +1,90 @@
+<%- include('layauts/header') %>
+
+<body class="main-body leftmenu color-fondo">
+
+    <%- include('layauts/loader') %> 
+
+    <!-- Page -->
+    <div class="page main-signin-wrapper">
+
+        <!-- Row -->
+        <div class="row text-center justify-content-center">
+            <div class="col-md-10 col-lg-4 px-0 justify-content-center">
+                <div class="card color-fondo" style="border: 1px solid transparent !important;">
+                    <div class="row row-sm">
+                        <div class="col-lg-12 col-xl-12 col-xs-12 col-sm-12 login_form px-5">
+                            <div class="container-fluid">
+                                <div class="row row-sm">
+                                    <div class="card-body mt-2 mb-2">
+                                        <img src="./assetsDashboard/images/lista_1.png"  class="text-center header-brand-img mb-5 w-60" alt="logo">
+                                        <div class="clearfix"></div>
+                                            <h5 class="text-center mb-4">Encuesta Mural Transformación Energética</h5>
+                                            <div class="form-group text-left">
+                                                <input class="form-control" name="pin" id="pin" placeholder="Ingrese su PIN (R-0000)" type="text" onkeyup="validarPin(event)">
+                                            </div>
+
+                                            <button type="button" class="btn ripple btn-main-primary btn-block mt-4" id="comenzar" onclick="comenzarEncuestaOne(event)" disabled="true">Comenzar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+
+    </div>
+    <!-- End Page -->
+
+    <script>
+        window.localStorage.clear();
+    </script>
+
+<%- include('layauts/footer') %> 
+
+<script>
+
+ const validarPin = (e) => {
+
+    const pin = document.getElementById('pin');
+
+    if(pin.value.length === 1) {
+        pin.value = pin.value+'-';
+    } else if(pin.value.length < 6) {
+        document.getElementById('comenzar').disabled = true;
+    } else {
+        document.getElementById('comenzar').disabled = false;
+
+        fetch('/validarUsuario', {
+            method: 'POST',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify({
+                pin: pin.value
+            })
+        })
+        .then(res => res.text())
+        .then(data => {
+            const respuesta = JSON.parse(data);
+            if(respuesta.resp !== 'success'){
+
+                swal(
+                    {
+                        title: respuesta.titulo,
+                        text: respuesta.descripcion,
+                        type: respuesta.resp,
+                        confirmButtonColor: '#57a94f'
+                    });
+
+            }
+        })
+    }
+
+ }
+
+ const comenzarEncuestaOne = (e) => {
+    const pin = document.getElementById('pin').value;
+    location.href = `muraloneEncuesta/${pin}`;
+ }
+
+</script>

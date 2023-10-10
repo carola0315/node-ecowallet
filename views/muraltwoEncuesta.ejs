@@ -1,0 +1,212 @@
+<%- include('layauts/header') %>
+
+<body class="main-body leftmenu color-fondo">
+
+    <%- include('layauts/loader') %> 
+
+    <!-- Page -->
+    <div class="page main-signin-wrapper">
+
+        <!-- Row -->
+        <div class="row text-center justify-content-center">
+            <div class="col-md-10 col-lg-4 px-0 justify-content-center">
+                <div class="card color-fondo" style="border: 1px solid transparent !important;">
+                    <div class="row row-sm">
+                        <div class="col-lg-12 col-xl-12 col-xs-12 col-sm-12 login_form px-5">
+                            <div class="container-fluid">
+                                <div class="row row-sm">
+                                    <div class="card-body mt-2 mb-2">
+                                        <img src="../assetsDashboard/images/calculadora_1.png"  class="text-center header-brand-img mb-5 w-60" alt="logo">
+                                        <div class="clearfix"></div>
+                                        <form>
+                                            <h5 class="text-center mb-4">Hola! <%= usuario.nombres %>, comencemos:</h5>
+                                            <div class="form-group text-left my-4">
+                                                <input type="hidden" value="<%= usuario.pin %>" id="pin">
+                                                <input type="hidden" value="1" id="n">
+                                                <% if(encuesta.length) { %>
+                                                    <% var n = 0; %>
+                                                    <% encuesta.forEach(listaEncuesta => { %>
+                                                        <% n++ %>
+                                                        <input type="hidden" value="<%= listaEncuesta.id_pregunta %>" id="idPregunta<%= n %>">
+                                                        <div id="step<%= n %>" class="<%- n !== 1 ? 'd-none' : '' %>">
+                                                        <div class="row row-sm mt-4 mb-1">
+                                                        <label class="form-label"><strong><%= n+". "+listaEncuesta.pregunta %></strong></label>
+                                                        </div>
+                                                        <div class="row row-sm">
+                                                        <div class="form-check">
+                                                            <input onchange="validarEnvio(event)" type="radio" name="pregunta<%= n %>" id="labelPreguntaA<%= listaEncuesta.id_pregunta %>" value="a">
+                                                            <label class="mb-0" for="labelPreguntaA<%= listaEncuesta.id_pregunta %>"><strong>A)</strong> <%= listaEncuesta.a %></label><br>
+
+                                                            <input onchange="validarEnvio(event)" type="radio" name="pregunta<%= n %>" id="labelPreguntaB<%= listaEncuesta.id_pregunta %>" value="b">
+                                                            <label class="mb-0" for="labelPreguntaB<%= listaEncuesta.id_pregunta %>"><strong>B)</strong> <%= listaEncuesta.b %></label><br>
+
+                                                            <input onchange="validarEnvio(event)" type="radio" name="pregunta<%= n %>" id="labelPreguntaC<%= listaEncuesta.id_pregunta %>" value="c">
+                                                            <label class="mb-0" for="labelPreguntaC<%= listaEncuesta.id_pregunta %>"><strong>C)</strong> <%= listaEncuesta.c %></label><br>
+
+                                                            <% if(listaEncuesta.d) { %>
+                                                                <input onchange="validarEnvio(event)" type="radio" name="pregunta<%= n %>" id="labelPreguntaD<%= listaEncuesta.id_pregunta %>" value="d">
+                                                                <label class="mb-0" for="labelPreguntaD<%= listaEncuesta.id_pregunta %>"><strong>D)</strong> <%= listaEncuesta.d %></label><br>
+                                                            <% } %>
+
+                                                            <% if(listaEncuesta.e) { %>
+                                                                <input onchange="validarEnvio(event)" type="radio" name="pregunta<%= n %>" id="labelPreguntaE<%= listaEncuesta.id_pregunta %>" value="d">
+                                                                <label class="mb-0" for="labelPreguntaE<%= listaEncuesta.id_pregunta %>"><strong>E)</strong> <%= listaEncuesta.e %></label><br>
+                                                            <% } %>
+                                                        
+                                                        </div>
+                                                        </div>
+                                                        </div>
+                                                    <% }) %>
+                                                <% } %>
+                                            </div>
+
+                                            <div class="row justify-content-center">
+                                                <div class="col-6 pl-0">
+                                                    <button type="button" class="btn ripple btn-secondary btn-block mt-4" disabled="true" id="anteriorPregunta" onclick="anteriorP(event)">Volver</button>
+                                                </div>
+                                                <div class="col-6 pr-0">
+                                                    <button type="button" class="btn ripple btn-secondary btn-block mt-4" id="siguientePregunta" onclick="siguienteP(event)">Siguiente</button>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn ripple btn-main-primary btn-block mt-4" id="evaluarEncuesta" disabled="true" onclick="enviarRespuestas(event)">Enviar Respuestas</button>
+                                            
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Row -->
+
+    </div>
+    <!-- End Page -->
+
+    <script>
+        window.localStorage.clear();
+    </script>
+
+<%- include('layauts/footer') %> 
+
+<script>
+
+    const siguienteP = (e) => {
+        
+        const n = document.getElementById('n');
+        const step = document.getElementById('step'+Number(n.value));
+        const m = Number(n.value) + 1;
+        const nextStep = document.getElementById('step'+m);
+        step.classList.add('d-none');
+        nextStep.classList.remove('d-none');
+        n.value = m;
+
+        if(Number(n.value) === 5) {
+            document.getElementById('siguientePregunta').disabled = true;
+        } else {
+            document.getElementById('siguientePregunta').disabled = false;
+            document.getElementById('anteriorPregunta').disabled = false;
+        }
+
+    }
+    
+    const anteriorP = (e) => {
+        
+        const n = document.getElementById('n');
+        const step = document.getElementById('step'+Number(n.value));
+        const m = Number(n.value) - 1;
+        const nextStep = document.getElementById('step'+m);
+        step.classList.add('d-none');
+        nextStep.classList.remove('d-none');
+        n.value = m;
+
+        if(Number(n.value) === 1) {
+            document.getElementById('anteriorPregunta').disabled = true;
+            document.getElementById('siguientePregunta').disabled = false;
+        } else if (Number(n.value) === 5) {
+            document.getElementById('anteriorPregunta').disabled = false;
+        } else {
+            document.getElementById('anteriorPregunta').disabled = false;
+        }
+
+    }
+
+    const validarEnvio = (e) => {
+
+        var t = 0;
+        if(document.querySelector('input[name="pregunta1"]:checked')) {t = t+1;};        
+        if(document.querySelector('input[name="pregunta2"]:checked')) {t = t+1;};        
+        if(document.querySelector('input[name="pregunta3"]:checked')) {t = t+1;};        
+        if(document.querySelector('input[name="pregunta4"]:checked')) {t = t+1;};        
+        if(document.querySelector('input[name="pregunta5"]:checked')) {t = t+1;};
+
+        if(t < 5) {
+            document.getElementById('evaluarEncuesta').disabled = true;
+        } else {
+            document.getElementById('evaluarEncuesta').disabled = false;
+        }
+
+    }
+
+    const enviarRespuestas = (e) => {
+
+        const idPregunta1 = document.getElementById('idPregunta1').value;
+        const idPregunta2 = document.getElementById('idPregunta2').value;
+        const idPregunta3 = document.getElementById('idPregunta3').value;
+        const idPregunta4 = document.getElementById('idPregunta4').value;
+        const idPregunta5 = document.getElementById('idPregunta5').value;
+        const pregunta1 = document.querySelector('input[name="pregunta1"]:checked').value;
+        const pregunta2 = document.querySelector('input[name="pregunta2"]:checked').value;
+        const pregunta3 = document.querySelector('input[name="pregunta3"]:checked').value;
+        const pregunta4 = document.querySelector('input[name="pregunta4"]:checked').value;
+        const pregunta5 = document.querySelector('input[name="pregunta5"]:checked').value;
+        const pin = document.getElementById('pin').value;
+
+        fetch('/validarEncuestaTwo', {
+            method: 'POST',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify({
+                pregunta1: {
+                    id: idPregunta1,
+                    respuesta: pregunta1
+                },
+                pregunta2: {
+                    id: idPregunta2,
+                    respuesta: pregunta2
+                },
+                pregunta3: {
+                    id: idPregunta3,
+                    respuesta: pregunta3
+                },
+                pregunta4: {
+                    id: idPregunta4,
+                    respuesta: pregunta4
+                },
+                pregunta5: {
+                    id: idPregunta5,
+                    respuesta: pregunta5
+                },
+                pin
+            })
+        })
+        .then(res => res.text())
+        .then(data => {
+            const respuesta = JSON.parse(data);
+            swal({
+                title: respuesta.titulo,
+                text: respuesta.descripcion,
+                type: respuesta.resp,
+                confirmButtonColor: '#57a94f',
+                closeOnClickOutside: false
+            },
+                function(isConfirm) {
+                if (isConfirm) {
+                    location.href = 'https://xd.adobe.com/view/e18457b0-9d42-4254-a141-a08af59894b9-b4d7/screen/6ba641a0-7ef4-479c-915f-03743d54c72b?fullscreen&hints=off';
+                }
+            });
+        })
+
+    }
+
+</script>

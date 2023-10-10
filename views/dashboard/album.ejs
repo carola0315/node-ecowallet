@@ -1,0 +1,176 @@
+<!-- Header -->
+<%- include('layautsDashboard/header') %>
+
+<body class="main-body leftmenu body-ingreso">
+
+  <%- include('layautsDashboard/loader') %>
+
+  <!-- Page -->
+  <div class="page">
+
+    <!-- Menu -->
+    <%- include('layautsDashboard/menu') %>
+
+    <!-- Cabecera -->
+    <%- include('layautsDashboard/head') %>
+
+    <!-- Main Content-->
+    <div class="main-content side-content pt-0">
+
+      <div class="container-fluid">
+        <div class="inner-body">
+
+          <!-- Page Header -->
+          <div class="page-header">
+            <div>
+              <h2 class="main-content-title tx-24 mg-b-5"><%- titulo %></h2>
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/dashboard/inicio">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><%- breadcrumb %></li>
+              </ol>
+            </div>
+          </div>
+          <!-- End Page Header -->
+
+          <!--Row-->
+          <div class="row row-sm justify-content-center">
+            <div class="col-sm-12 col-lg-12 col-xl-6">
+              <div class="card custom-card">
+                <div class="card-body">
+                  <div class="row row-sm">
+                    <div class="col-12 px-0">
+                      <h3 class="text-center color-primary">Experiencia AR<br>Albúm</h3>
+                      <p class="text-left mt-3">Colecciona la diversa fauna que podras buscar con tu camara y gana Ecobits:</p>
+                        <% if(album.length) { %>
+                        <% album.forEach(listaAlbum => { %>
+                        <% var filtro = usuario.fauna.includes(listaAlbum.id_album); %>
+                        <div class="text-center p-3">
+                            <img src="/assetsDashboard/images/stickers/<%- filtro === true ? listaAlbum.animal_color : listaAlbum.animal_bn %>" alt="image" style="width: 70% !important;">
+                            <h5 class="text-center mt-2"><%= listaAlbum.nombre %></h5>
+                            <button class="btn btn-block btn-main-primary" onclick="info(event, '<%= listaAlbum.nombre %>', '<%= listaAlbum.descripcion %>', '<%= listaAlbum.animal_color %>')">Saber más...</button>
+                        </div>
+                        <hr>
+                        <% }) %>
+                        <% } %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- col end -->
+          </div>
+          <!-- Row end -->
+        </div>
+      </div>
+    </div>
+    <!-- End Main Content-->
+
+    <div class="modal" id="info">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content modal-content-demo modal-3d">
+                <div class="modal-header">
+                    <h6 class="modal-title">Información sobre la fauna</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group ">
+                        <div class="row row-sm">
+                            <img src="" alt="fauna" id="imagenFauna">
+                        </div>
+                        <h4 id="nombreFauna" class="font-weight-bold text-center mt-4 mb-2"></h4>
+                        <p id="descripcionFauna" class="text-left"></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Foot -->
+    <%- include('layautsDashboard/foot') %>
+
+    <!-- Notificiaciones -->
+    <%- include('layautsDashboard/notificaciones') %>
+
+  </div>
+  <!-- End Page -->
+
+  <!-- Footer -->
+  <%- include('layautsDashboard/botones') %>
+  <%- include('layautsDashboard/footer') %>
+
+<script type="text/javascript">
+
+    const info = (e, nombre, descripcion, imagen) => {
+
+      const imagenFauna = document.getElementById('imagenFauna');
+      const nombreFauna = document.getElementById('nombreFauna');
+      const descripcionFauna = document.getElementById('descripcionFauna');
+
+      imagenFauna.src = '/assetsDashboard/images/stickers/'+imagen;
+      nombreFauna.innerHTML = nombre;
+      descripcionFauna.innerHTML = descripcion;
+
+      $('#info').modal('show');
+
+    }
+
+    function transferirEcobits(e) {
+        
+      $('#global-loader').addClass("d-block");
+      $('#global-loader').removeClass("d-none");
+
+      const valor = document.getElementById('valor').value;
+      const pin = document.getElementById('pin').value;
+
+      fetch('./transferir', {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify({
+            valor: Number(valor),
+            pin: pin
+          })
+        })
+        .then(res => res.text())
+        .then(data => {
+          $('#global-loader').removeClass("d-block");
+          $('#global-loader').addClass("d-none");
+          const respuesta = JSON.parse(data);
+          if (respuesta.resp === 'success') {
+
+            swal({
+                title: respuesta.titulo,
+                text: respuesta.descripcion,
+                type: respuesta.resp,
+                confirmButtonColor: '#57a94f',
+                closeOnClickOutside: false
+              },
+              function(isConfirm) {
+                if (isConfirm) {
+                  location.href = '/dashboard/ecobits';
+                }
+              });
+
+          } else {
+
+            swal({
+              title: respuesta.titulo,
+              text: respuesta.descripcion,
+              type: respuesta.resp,
+              confirmButtonColor: '#fd6074'
+            })
+          }
+        }).catch(() => {
+          $('#global-loader').removeClass("d-block");
+          $('#global-loader').addClass("d-none");
+          swal({
+            title: 'Request Error',
+            text: 'Lo sentimos presentamos un error en el sistema, por favor reportalo!',
+            type: 'error'
+          });
+        })
+    };
+</script>

@@ -1,0 +1,92 @@
+<!-- Header -->
+<%- include('layautsDashboard/header') %>
+
+<body class="main-body leftmenu body-ingreso">
+
+  <%- include('layautsDashboard/loader') %>
+
+  <!-- Page -->
+  <div class="page">
+
+    <!-- Menu -->
+    <%- include('layautsDashboard/menu') %>
+
+    <!-- Cabecera -->
+    <%- include('layautsDashboard/head') %>
+
+    <!-- Main Content-->
+    <div class="main-content side-content pt-0">
+
+      <div class="container-fluid">
+        <div class="inner-body">
+
+          <!-- Page Header -->
+          <div class="page-header">
+            <div>
+              <h2 class="main-content-title tx-24 mg-b-5"><%- titulo %></h2>
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/dashboard/inicio">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><%- breadcrumb %></li>
+              </ol>
+            </div>
+          </div>
+          <!-- End Page Header -->
+
+          <!--Row-->
+          <div class="row row-sm justify-content-center">
+            <div class="col-sm-12 col-lg-12 col-xl-6">
+              <div class="card custom-card">
+                <div class="card-body">
+                  <div class="row row-sm">
+                    <div class="col-12 px-0">
+                      <img src="<%= usuario.qr %>" class="w-100" alt="qr-code">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-12 col-xl-6">
+              <div class="card custom-card">
+                <div class="card-body">
+                  <div class="row row-sm">
+                    <div class="col-12 px-0">
+                      <h2 class="text-center">PIN <span style="color: #fcb400; font-weight: 700;"><%= usuario.pin %></span></h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-12 col-xl-6">
+              <div class="card custom-card">
+                <div class="card-body">
+                  <div class="row row-sm">
+                    <div class="col-12 px-0">
+                        <center>
+                            <!-- <a class="btn btn-primary ripple" style="color: white !important;" data-effect="effect-flip-horizontal" data-toggle="modal" href="#scan">Scannear QR</a> -->
+                            <a class="btn btn-primary ripple" style="color: white !important;" data-effect="effect-flip-horizontal" data-toggle="modal" href="#scan" onclick="activarScan(event)">Scannear QR</a>
+                        </center>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- col end -->
+          </div>
+          <!-- Row end -->
+        </div>
+      </div>
+    </div>
+    <!-- End Main Content-->  
+
+    <!-- Foot -->
+    <%- include('layautsDashboard/foot') %>
+
+    <!-- Notificiaciones -->
+    <%- include('layautsDashboard/notificaciones') %>
+
+  </div>
+  <!-- End Page -->
+
+  <!-- Footer -->
+  <%- include('layautsDashboard/botones') %>
+  <%- include('layautsDashboard/footer') %>

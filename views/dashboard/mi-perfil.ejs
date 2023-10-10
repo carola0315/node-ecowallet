@@ -1,0 +1,246 @@
+<!-- Header -->
+<%- include('layautsDashboard/header') %>
+
+<body class="main-body leftmenu body-ingreso">
+
+  <%- include('layautsDashboard/loader') %>
+
+  <!-- Page -->
+  <div class="page">
+
+    <!-- Menu -->
+    <%- include('layautsDashboard/menu') %>
+
+    <!-- Cabecera -->
+    <%- include('layautsDashboard/head') %>
+
+    <!-- Main Content-->
+    <div class="main-content side-content pt-0">
+
+      <div class="container-fluid">
+        <div class="inner-body">
+
+          <!-- Page Header -->
+          <div class="page-header">
+            <div>
+              <h2 class="main-content-title tx-24 mg-b-5"><%- titulo %></h2>
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/dashboard/inicio">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><%- breadcrumb %></li>
+              </ol>
+            </div>
+          </div>
+          <!-- End Page Header -->
+
+          <!-- Row -->
+          <div class="row row-sm">
+            <div class="col-lg-12 col-md-12">
+              <div class="card custom-card main-content-body-profile">
+                <div class="tab-content">
+                  <div class="main-content-body tab-pane p-4 border-top-0 active" id="about">
+                    <div class="card-body p-0 border p-0 rounded-10">
+                      <div class="p-4">
+                        <h4 class="tx-15 text-uppercase mb-3">Información Personal</h4>
+                        <div class="row row-sm">
+                          <div class="col-lg-6 col-md-6">
+                            <h5 class="tx-14 text-capitalize">Nombres y Apellidos</h5>
+                            <p class="m-b-5 text-capitalize"><%- usuario.nombres %></p>
+                            <div class="m-t-30">
+                              <h4 class="tx-15 text-capitalize mt-3">Perfil</h4>
+                              <div class=" p-t-10">
+                                <h5 class="text-primary m-b-5 tx-14 text-capitalize"><%- usuario.perfil %></h5>
+                              </div>
+                              <h4 class="tx-15 text-capitalize mt-3">Fecha de Registro</h4>
+                              <div class="p-t-10">
+                                <h5 class="text-primary m-b-5 tx-14 text-capitalize"><%- moment(usuario.fecha).format('MMMM Do YYYY, h:mm:ss a') %></h5>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-6 col-md-6">
+                            <h5 class="tx-14 text-capitalize">Email</h5>
+                            <p class="m-b-5 text-lowercase"><%- usuario.email %></p>
+                            <div class="m-t-30">
+                              <h4 class="tx-15 text-capitalize mt-3">Teléfono</h4>
+                              <div class="p-t-10">
+                                <p class="m-b-5 text-capitalize">
+                                  <%= usuario.telefono === null ? 'Sin Teléfono Registrado' : usuario.telefono %></p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="border-top"></div>
+                      <div class="p-4">
+                        <h4 class="tx-15 text-uppercase mb-3">Copiar PIN</h4>
+                        <div class="row row-sm">
+                          <div class="col-lg-12 col-md-12 display-flex">
+                            <div class="col-md-6 px-0">
+                              <input class="form-control input-md text-left" type="text" value="<%= usuario.pin %>" id="copyPin" readonly>
+                            </div>
+                            <div class="col-md-6">
+                              <a class="btn btn-secondary ml-1 text-white copiarPortapapeles" data-clipboard-target="#copyPin">Copiar</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Row -->
+
+        </div>
+      </div>
+    </div>
+    <!-- End Main Content-->
+
+    <!-- Foot -->
+    <%- include('layautsDashboard/foot') %>
+
+    <!-- Notificiaciones -->
+    <%- include('layautsDashboard/notificaciones') %>
+
+  </div>
+  <!-- End Page -->
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  <!-- Footer -->
+  <%- include('layautsDashboard/botones') %>
+  <%- include('layautsDashboard/footer') %>
+
+  <!-- Scripts Personalizados -->
+
+
+  <% if(locals.mensajes) { %>
+  <% const validacionErrores = Object.keys(locals.mensajes) %>
+  <% if(validacionErrores.length) { %>
+
+  <% locals.mensajes[validacionErrores].forEach(alerta => { %>
+
+  <% if(validacionErrores == 'error') { %>
+  <% title = 'Lo Sentimos!' %>
+  <% } else if (validacionErrores == 'success') { %>
+  <% title = 'Perfecto!' %>
+  <% } %>
+
+  <script>
+    swal({
+      title: "<%= title %>",
+      text: "<%= alerta %>",
+      type: "<%= validacionErrores %>",
+      confirmButtonColor: '#57a94f'
+    })
+  </script>
+
+  <% }); %>
+
+  <% } %>
+  <% } %>
+
+  <script>
+
+    const clipboard = new Clipboard('.copiarPortapapeles');
+
+    $("#password").keyup(function() {
+      const input = document.getElementById('password');
+      const passwordSeguro = /^(?=(?:.*\d))(?=.*[A-Z])(?=.*[a-z])(?=.*[.,*!?¿¡/#$%&])\S{10,20}$/;
+      const alerta = document.getElementById('alertaPassword');
+
+      if (passwordSeguro.test(input.value)) {
+        alerta.innerHTML =
+          `<div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Que bien!</strong> Contraseña valida.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>`;
+        document.getElementById('btnEnviar').disabled = false;
+      } else {
+        alerta.innerHTML =
+          `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Lo sentimos!</strong> Contraseña no valida, debe tener los siguientes parametros:
+                        <ul class="mt-2 mb-0">
+                            <li>Al menos un número 0-9</li>
+                            <li>Al menos una mayúscula</li>
+                            <li>Al menos una minúscula</li>
+                            <li>Al menos un carácter especial (.,*!?¿¡/#$%&)</li>
+                            <li>Longitud mínima de 10 caracteres, 20 máxima</li>
+                            <li>No acepta espacios</li>
+                        </ul>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>`;
+        document.getElementById('btnEnviar').disabled = true;
+      }
+    });
+
+    function verInput() {
+      const password = document.getElementById("password");
+      const tipo = password.type;
+
+      if (tipo == 'text') {
+        $('#iconoOjo').removeClass('fe-eye-off');
+        $('#iconoOjo').addClass('fe-eye');
+        password.type = 'password';
+      } else {
+        $('#iconoOjo').removeClass('fe-eye');
+        $('#iconoOjo').addClass('fe-eye-off');
+        password.type = 'text';
+      }
+    }
+
+    function cambioPassword() {
+
+      const newPassword = document.getElementById('password').value;
+
+      $('#global-loader').addClass("d-block");
+      $('#global-loader').removeClass("d-none");
+      fetch('/dashboard/mi-perfil/cambiarPassword', {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify({
+            password: newPassword
+          })
+        })
+        .then(res => res.text())
+        .then(data => {
+          $('#global-loader').removeClass("d-block");
+          $('#global-loader').addClass("d-none");
+          const respuesta = JSON.parse(data);
+          if (respuesta.resp === 'success') {
+
+            swal({
+                title: respuesta.titulo,
+                text: respuesta.descripcion,
+                type: respuesta.resp,
+                confirmButtonColor: '#57a94f',
+                closeOnClickOutside: false
+              },
+              function(isConfirm) {
+                if (isConfirm) {
+                  location.reload();
+                }
+              });
+
+          } else {
+
+            swal({
+              title: respuesta.titulo,
+              text: respuesta.descripcion,
+              type: respuesta.resp,
+              confirmButtonColor: '#fd6074'
+            })
+          }
+        }).catch(() => {
+          $('#global-loader').removeClass("d-block");
+          $('#global-loader').addClass("d-none");
+          swal({
+            title: 'Request Error',
+            text: '500 - Mi perfil',
+            type: 'error'
+          });
+        })
+    }
+  </script>

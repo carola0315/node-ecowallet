@@ -1,0 +1,61 @@
+<!-- Sidemenu -->
+<div class="main-sidebar main-sidebar-sticky side-menu">
+  <div class="sidemenu-logo">
+    <a class="main-logo" href="/dashboard/inicio">
+      <img src="/assetsDashboard/images/ecowallet_1.png" class="header-brand-img desktop-logo mx-0 w-100 pt-1" alt="logo">
+      <img src="/assetsDashboard/images/ecowallet_1.png" class="header-brand-img icon-logo pt-1 pb-3 px-2" alt="logo">
+    </a>
+  </div>
+  <div class="main-sidebar-body">
+    <ul class="nav">
+      <li class="nav-header mb-2 mt-3"><span class="nav-label">Inicio</span></li>
+      <!-- Inicio -->
+      <li class="nav-item <%= classActive === 'inicio' ? 'active' : '' %>">
+        <a class="nav-link" href="/dashboard/inicio"><span class="shape1"></span><span class="shape2"></span><img src="/assetsDashboard/images/inicio_1.png" alt="" class="sidemenu-icon"><span class="sidemenu-label">Inicio</span></a>
+      </li>
+      
+      <li class="nav-header mb-2 mt-3"><span class="nav-label">Ecobits</span></li>
+      <!-- Ecobits -->
+      <li class="nav-item <%= classActive === 'ecobits' ? 'active' : '' %>">
+        <a class="nav-link" href="/dashboard/ecobits"><span class="shape1"></span><span class="shape2"></span><img src="/assetsDashboard/images/monedas_1.png" alt="" class="sidemenu-icon"><span class="sidemenu-label">Mis Ecobits</span></a>
+      </li>
+      <!-- QR -->
+      <li class="nav-item <%= classActive === 'qr' ? 'active' : '' %>">
+        <a class="nav-link" href="/dashboard/qr"><span class="shape1"></span><span class="shape2"></span><img src="/assetsDashboard/images/codigoQR_1.png" alt="" class="sidemenu-icon"><span class="sidemenu-label">Mi QR</span></a>
+      </li>
+      
+      <li class="nav-header mb-2 mt-3"><span class="nav-label">Fauna AR</span></li>
+      <!-- Fauna AR -->
+      <li class="nav-item <%= classActive === 'album' ? 'active' : '' %>">
+        <a class="nav-link" href="/dashboard/album"><span class="shape1"></span><span class="shape2"></span><img src="/assetsDashboard/images/album_1.png" alt="" class="sidemenu-icon"><span class="sidemenu-label">Mi Colección</span></a>
+      </li>
+      
+      <li class="nav-header mb-2 mt-3"><span class="nav-label">Más opciones</span></li>
+      <!-- mi perfil -->
+      <li class="nav-item <%= classActive === 'mi-perfil' ? 'active' : '' %>">
+        <a class="nav-link" href="/dashboard/mi-perfil"><span class="shape1"></span><span class="shape2"></span><img src="/assetsDashboard/images/astronauta_1.png" alt="" class="sidemenu-icon"><span class="sidemenu-label ">Mi Perfil</span></a>
+      </li>
+      <!-- Cerrar Sesión -->
+      <li class="nav-item">
+        <a class="nav-link" onclick="cerrarSesion()" href="#"><span class="shape1"></span><span class="shape2"></span><img src="/assetsDashboard/images/cohete_1.png" alt="" class="sidemenu-icon"><span class="sidemenu-label">Cerrar Sesión</span></a>
+      </li>
+
+      <!-- <li class="nav-item">
+                <a class="nav-link with-sub" href="#"><span class="shape1"></span><span class="shape2"></span><i class="ti-map-alt sidemenu-icon"></i><span class="sidemenu-label">Maps</span><span class="badge badge-secondary side-badge">2</span></a>
+                <ul class="nav-sub">
+                    <li class="nav-sub-item">
+                        <a class="nav-sub-link" href="map-mapel.html">Mapel Maps</a>
+                    </li>
+                    <li class="nav-sub-item">
+                        <a class="nav-sub-link" href="map-vector.html">Vector Maps</a>
+                    </li>
+                </ul>
+            </li> -->
+
+    </ul>
+  </div>
+  <script>
+     
+  </script>
+</div>
+<!-- End Sidemenu -->

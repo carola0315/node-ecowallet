@@ -1,0 +1,108 @@
+<!-- Header -->
+<%- include('layautsDashboard/header') %>
+
+<body class="main-body leftmenu body-ingreso">
+
+  <%- include('layautsDashboard/loader') %>
+
+  <!-- Page -->
+  <div class="page">
+
+    <!-- Menu -->
+    <%- include('layautsDashboard/menu') %>
+
+    <!-- Cabecera -->
+    <%- include('layautsDashboard/head') %>
+
+    <!-- Main Content-->
+    <div class="main-content side-content pt-0">
+
+      <div class="container-fluid">
+        <div class="inner-body">
+
+          <!-- Page Header -->
+          <div class="page-header">
+            <div>
+              <h2 class="main-content-title tx-24 mg-b-5"><%- titulo %></h2>
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/dashboard/inicio">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><%- breadcrumb %></li>
+              </ol>
+            </div>
+          </div>
+          <!-- End Page Header -->
+
+          <!--Row-->
+          <div class="row row-sm justify-content-center">
+            <div class="col-sm-12 col-lg-12 col-xl-6">
+              <div class="card custom-card">
+                <div class="card-body">
+                  <div class="row row-sm">
+                    <div class="col-12 px-0">
+                      <h3 class="text-center color-primary">Mis Ecobits</h3>
+                      <h2 class="text-center"><img src="/assetsDashboard/images/ecobits_1.png" alt="image" class="mr-3" style="width: 38px !important;"><span style="color: #fcb400; font-weight: 700;">$ <%= usuario.saldo%></span></h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Tabla Ecobits -->
+                <div class="col-sm-12 col-lg-12 col-xl-6">
+                  <div class="card custom-card">
+                    <div class="card-body">
+                      <div>
+                        <h6 class="main-content-label mb-1">Transaciones</h6>
+                        <p class="text-muted card-sub-title">Observa todos los movimientos que han tenido tus Ecobits.</p>
+                      </div>
+                      <div class="table-responsive">
+                        <table class="table table-bordered text-nowrap w-100" id="example2">
+                          <thead>
+                            <tr>
+                              <th>Valor</th>
+                              <th>Evento</th>
+                              <th>Concepto</th>
+                              <th>Emisor</th>
+                              <th><i class="mdi mdi-arrow-collapse-down"></i></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% if(transacciones.length) { %>
+                            <% transacciones.forEach(listaTransacciones => { %>
+                            <% var valorFormateado = new Intl.NumberFormat("es-CO", {style: "currency", currency: "COP", maximumSignificantDigits: 7}).format(listaTransacciones.valor); %>
+                            <tr>
+                              <td class="text-capitalize"><%= valorFormateado %></td>
+                              <td class="text-capitalize"><%= listaTransacciones.evento %></td>
+                              <td class="text-capitalize"><%= listaTransacciones.concepto %></td>
+                              <td class="text-capitalize"><%= listaTransacciones.userEmisor.nombres %></td>
+                              <td class="text-capitalize"><%- listaTransacciones.receptor === usuario.id_usuario ? '<i class="mdi mdi-arrow-up color-success"></i>' : '<i class="mdi mdi-arrow-down color-danger"></i>' %></td>
+                            </tr>
+                            <% }) %>
+                            <% } %>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <!-- col end -->
+          </div>
+          <!-- Row end -->
+        </div>
+      </div>
+    </div>
+    <!-- End Main Content-->
+
+    <!-- Foot -->
+    <%- include('layautsDashboard/foot') %>
+
+    <!-- Notificiaciones -->
+    <%- include('layautsDashboard/notificaciones') %>
+
+  </div>
+  <!-- End Page -->
+
+  <!-- Footer -->
+  <%- include('layautsDashboard/botones') %>
+  <%- include('layautsDashboard/footer') %>

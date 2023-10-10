@@ -1,0 +1,50 @@
+<body onbeforeunload="return Cerrar()">
+
+</body>
+<!-- Main Header-->
+<div class="main-header side-header sticky">
+  <div class="container-fluid">
+    <div class="main-header-left">
+      <a class="main-header-menu-icon" href="#" id="mainSidebarToggle"><span></span></a>
+    </div>
+    <div class="main-header-center">
+      <div class="responsive-logo">
+        <img src="/assetsDashboard/images/ecobits_1.png" class="mobile-logo icon-logo-head" alt="logo">
+        <img src="/assetsDashboard/images/ecobits_1.png" class="mobile-logo-dark icon-logo-head" alt="logo">
+        <button class="btn btn-saldo mr-0 pr-0 pl-1" style="cursor: default; color: #3a1477;">$ <%- usuario.saldo %></button>
+      </div>
+    </div>
+    <div class="main-header-right">
+      <div class="dropdown d-md-flex">
+        <a class="nav-link icon full-screen-link" href="">
+          <i class="fe fe-maximize fullscreen-button fullscreen header-icons"></i>
+          <i class="fe fe-minimize fullscreen-button exit-fullscreen header-icons"></i>
+        </a>
+      </div>
+      <div class="dropdown main-profile-menu">
+        <a class="d-flex" href="">
+          <span class="main-img-user"><img alt="avatar" src="/assetsDashboard/images/ecowallet_1.png"></span>
+        </a>
+        <div class="dropdown-menu">
+          <div class="header-navheading">
+            <h6 class="main-notification-title text-capitalize"><%- usuario.nombres %></h6>
+            <p class="main-notification-text text-capitalize"><%- usuario.perfil %></p>
+          </div>
+          <a class="dropdown-item border-top" href="/dashboard/mi-perfil">
+            <i class="fe fe-user"></i> Mi Perfil
+          </a>
+          <a class="dropdown-item" onclick="cerrarSesion()" href="#">
+            <i class="fe fe-power"></i> Cerrar Sesión
+          </a>
+        </div>
+      </div>
+      <div class="dropdown d-md-flex header-settings" data-placement="bottom" data-toggle="tooltip" title="Notificaciones">
+        <a href="#" class="nav-link icon" data-toggle="sidebar-right" data-target=".sidebar-right">
+          <span><img alt="notificaciones" src="/assetsDashboard/images/campana_1.png" class="campana" id="iconoTotalNotificaciones"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- End Main Header-->

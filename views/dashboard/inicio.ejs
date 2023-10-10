@@ -1,0 +1,140 @@
+<!-- Header -->
+<%- include('layautsDashboard/header') %>
+
+<body class="main-body leftmenu body-ingreso">
+
+  <%- include('layautsDashboard/loader') %>
+
+  <!-- Page -->
+  <div class="page">
+
+    <!-- Menu -->
+    <%- include('layautsDashboard/menu') %>
+
+    <!-- Cabecera -->
+    <%- include('layautsDashboard/head') %>
+
+    <!-- Main Content-->
+    <div class="main-content side-content pt-0">
+
+      <div class="container-fluid">
+        <div class="inner-body">
+
+          <!-- Page Header -->
+          <div class="page-header">
+            <div>
+              <h2 class="main-content-title tx-24 mg-b-5"><%- titulo %></h2>
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/dashboard/inicio">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><%- breadcrumb %></li>
+              </ol>
+            </div>
+          </div>
+          <!-- End Page Header -->
+
+          <!--Row-->
+          <div class="row row-sm">
+            <div class="col-sm-12 col-lg-12 col-xl-4">
+              <div class="card custom-card">
+                <div class="card-body">
+                  <div class="row row-sm">
+                    <img src="/assetsDashboard/images/mis_ecobits_1.png" alt="image" class="top-img">
+                    <div class="col-12 px-0">
+                      <div class="card-item-title">
+                        <label class="main-content-label tx-13 font-weight-bold mb-2">Mis Ecobits</label>
+                        <span class="d-block tx-12 mb-0 text-muted">Observe sus ecobits en tiempo real</span>
+                      </div>
+                      <p class="mb-0 tx-24 mt-2 text-center"><b class="text-primary">$ <%- usuario.saldo %></b></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-12 col-xl-4">
+              <div class="card custom-card card-dashboard-calendar pb-0">
+                <img src="/assetsDashboard/images/lista_1.png" alt="image" class="top-img1">
+                <label class="main-content-label mb-2 pt-1">Mis Transacciones</label>
+                <span class="d-block tx-12 mb-2 text-muted">Observa como se mueven tus ecobits</span>
+                <table class="table table-hover m-b-0 transcations mt-2">
+                  <tbody>
+                    <% moment.locale('es'); %>
+                    <% if(transacciones.length) { %>
+                    <% transacciones.forEach(listaTransacciones => { %>
+                    <% var valorFormateado = new Intl.NumberFormat("es-CO", {style: "currency", currency: "COP", maximumSignificantDigits: 7}).format(listaTransacciones.valor); %>
+                    <tr>
+                      <td class="wd-5p">
+                        <div class="main-img-user avatar-md">
+                          <img alt="avatar" class="mr-3" src="/assetsDashboard/images/ecobits_1.png">
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-middle ml-3">
+                          <div class="d-inline-block">
+                            <h6 class="mb-1"><%= listaTransacciones.evento %></h6>
+                            <p class="mb-0 tx-13 text-muted"><%= listaTransacciones.userEmisor.nombres %></p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="text-right">
+                        <div class="d-inline-block">
+                          <h6 class="mb-2 tx-15 font-weight-semibold"><%= valorFormateado %><i class="<%- listaTransacciones.receptor === usuario.id_usuario ? 'fas fa-level-up-alt text-success' : 'fas fa-level-down-alt color-danger' %> ml-2 m-l-10"></i></h6>
+                        </div>
+                      </td>
+                    </tr>
+                    <% }) %>
+                    <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-12 col-xl-4">
+              <div class="card custom-card card-dashboard-calendar pb-0">
+                <img src="/assetsDashboard/images/tigre_1.png" alt="image" class="top-img2">
+                <label class="main-content-label mb-2 pt-1">Mi Colección</label>
+                <span class="d-block tx-12 mb-2 text-muted">¿Ya completaste tú colección de Fauna?</span>
+                <table class="table table-hover m-b-0 transcations mt-2">
+                  <tbody>
+                    <% moment.locale('es'); %>
+                    <tr>
+                      <td class="wd-5p">
+                        <div class="main-img-user avatar-md">
+                          <img alt="avatar" class="mr-3" src="/assetsDashboard/images/tigre_1.png">
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-middle ml-3">
+                          <div class="d-inline-block">
+                            <h6 class="mb-1">Oso Hormiguero</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="text-right">
+                        <div class="d-inline-block">
+                          <h6 class="mb-2 tx-15 font-weight-semibold"><i class="fas fa-check ml-2 text-success m-l-10"></i></h6>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- col end -->
+          </div>
+          <!-- Row end -->
+        </div>
+      </div>
+    </div>
+    <!-- End Main Content-->
+
+    <!-- Foot -->
+    <%- include('layautsDashboard/foot') %>
+
+    <!-- Notificiaciones -->
+    <%- include('layautsDashboard/notificaciones') %>
+
+  </div>
+  <!-- End Page -->
+
+  <!-- Footer -->
+  <%- include('layautsDashboard/botones') %>
+  <%- include('layautsDashboard/footer') %>

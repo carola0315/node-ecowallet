@@ -1,0 +1,16 @@
+{
+  "name": "Ecowallet",
+  "short_name": "Ecowallet",
+  "description": "Descubre todos los premios que tenemos para ti, realizar trasnacciones con tus Ecobits y vive una experiencia totalemtne digital!",
+  "icons": [
+    {
+      "src": "../../assetsDashboard/images/ecowallet_2.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#fcf6ff",
+  "background_color": "#fcf6ff"
+}

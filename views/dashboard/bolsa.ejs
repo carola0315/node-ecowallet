@@ -1,0 +1,147 @@
+<!-- Header -->
+<%- include('layautsDashboard/header') %>
+
+<body class="main-body leftmenu body-ingreso">
+
+  <%- include('layautsDashboard/loader') %>
+
+  <!-- Page -->
+  <div class="page">
+
+    <!-- Menu -->
+    <%- include('layautsDashboard/menu') %>
+
+    <!-- Cabecera -->
+    <%- include('layautsDashboard/head') %>
+
+    <!-- Main Content-->
+    <div class="main-content side-content pt-0">
+
+      <div class="container-fluid">
+        <div class="inner-body">
+
+          <!-- Page Header -->
+          <div class="page-header">
+            <div>
+              <h2 class="main-content-title tx-24 mg-b-5"><%- titulo %></h2>
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/dashboard/inicio">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><%- breadcrumb %></li>
+              </ol>
+            </div>
+          </div>
+          <!-- End Page Header -->
+
+          <!--Row-->
+          <div class="row row-sm justify-content-center">
+            <div class="col-sm-12 col-lg-12 col-xl-6">
+              <div class="card custom-card">
+                <div class="card-body">
+                  <div class="row row-sm">
+                    <div class="col-12 px-0">
+                      <h3 class="text-center color-primary">Tranferir Ecobits</h3>
+                      <p class="text-center mt-3">Estas a punto de enviar Ecobits a <strong><%= receptor.nombres %></strong>, recuerda que puedes enviar hasta un máximo de:</p>
+                      <h2 class="text-center"><img src="/assetsDashboard/images/mis_ecobits_1.png" alt="image" class="mr-3" style="width: 38px !important;"><span style="color: #fcb400; font-weight: 700;">$ <%= usuario.saldo%></span></h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-12 col-xl-6">
+              <div class="card custom-card">
+                <div class="card-body">
+                  <div class="row row-sm">
+                    <div class="col-12 px-0">
+                        <center>
+                            <div class="form-group text-left">
+                                <input class="form-control text-right" name="valor" id="valor" placeholder="0" type="number">
+                                <input type="hidden" name="pin" id="pin" value="<%= receptor.pin %>">
+                            </div>
+                            <a class="btn btn-primary ripple" style="color: white !important;" onclick="transferirEcobits(event)">Transferir Ecobits</a>
+                        </center>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- col end -->
+          </div>
+          <!-- Row end -->
+        </div>
+      </div>
+    </div>
+    <!-- End Main Content-->
+
+    <!-- Foot -->
+    <%- include('layautsDashboard/foot') %>
+
+    <!-- Notificiaciones -->
+    <%- include('layautsDashboard/notificaciones') %>
+
+  </div>
+  <!-- End Page -->
+
+  <!-- Footer -->
+  <%- include('layautsDashboard/botones') %>
+  <%- include('layautsDashboard/footer') %>
+
+<script type="text/javascript">
+
+    function transferirEcobits(e) {
+        
+      $('#global-loader').addClass("d-block");
+      $('#global-loader').removeClass("d-none");
+
+      const valor = document.getElementById('valor').value;
+      const pin = document.getElementById('pin').value;
+
+      fetch('./transferir', {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify({
+            valor: Number(valor),
+            pin: pin
+          })
+        })
+        .then(res => res.text())
+        .then(data => {
+          $('#global-loader').removeClass("d-block");
+          $('#global-loader').addClass("d-none");
+          const respuesta = JSON.parse(data);
+          if (respuesta.resp === 'success') {
+
+            swal({
+                title: respuesta.titulo,
+                text: respuesta.descripcion,
+                type: respuesta.resp,
+                confirmButtonColor: '#57a94f',
+                closeOnClickOutside: false
+              },
+              function(isConfirm) {
+                if (isConfirm) {
+                  location.href = '/dashboard/ecobits';
+                }
+              });
+
+          } else {
+
+            swal({
+              title: respuesta.titulo,
+              text: respuesta.descripcion,
+              type: respuesta.resp,
+              confirmButtonColor: '#fd6074'
+            })
+          }
+        }).catch(() => {
+          $('#global-loader').removeClass("d-block");
+          $('#global-loader').addClass("d-none");
+          swal({
+            title: 'Request Error',
+            text: 'Lo sentimos presentamos un error en el sistema, por favor reportalo!',
+            type: 'error'
+          });
+        })
+    };
+</script>
