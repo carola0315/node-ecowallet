@@ -58,14 +58,7 @@
                 color: white !important;
             }
           </style>
-         
-          <!--Row-->
-          //<model-viewer class="w-100" style="height: 60vh !important;" src="<%= album.render %>" ar ar-modes="webxr scene-viewer quick-look" camera-controls poster="<%= album.patt %>" shadow-intensity="1" autoplay>
-            //<button class="Hotspot" style="top: -20vh !important; position: absolute !important; left: -25vw !important; width: 200px !important;" slot="hotspot-1" position="-0.004060092693080386m 0.5627412661571248m -0.13664164649841892m" data-normal="-0.1334930166134225m 0.7266357060660863m 0.6739289021738782m" data-visibility-attribute="visible">
-            //    <div class="HotspotAnnotation"><%= album.nombre %></div>
-            //</button>
-            //</model-viewer> 
-          <!-- Row end --> 
+
             <model-viewer class="w-100" style="height: 60vh !important;"  img src=""/assetsDashboard/images/fauna/<%= album.render %>" ar ar-modes="scene-viewer webxr" camera-controls poster="<%= album.patt %>" shadow-intensity="1" autoplay>
             <button class="Hotspot" style="top: -20vh !important; position: absolute !important; left: -25vw !important; width: 200px !important;" slot="hotspot-1" position="-0.004060092693080386m 0.5627412661571248m -0.13664164649841892m" data-normal="-0.1334930166134225m 0.7266357060660863m 0.6739289021738782m" data-visibility-attribute="visible">
                 <div class="HotspotAnnotation"><%= album.nombre %></div>
